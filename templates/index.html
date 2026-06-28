@@ -196,11 +196,16 @@ header{
   transition: transform .18s, background .18s, box-shadow .18s, border-color .18s;
 }
 .serv-card:hover{
-  transform:translateY(-4px);
-  background:rgba(255,255,255,0.08);
-  border-color:rgba(139,47,201,0.35);
-  box-shadow:0 28px 90px -32px rgba(139,47,201,0.4);
+  transform:translateY(-6px);
+  background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(10,36,100,0.02));
+  border-color:rgba(79,255,209,0.12);
+  box-shadow:0 30px 90px -20px rgba(3,102,255,0.12), 0 18px 40px -20px rgba(79,255,209,0.06);
 }
+.serv-card::after{
+  content:''; position:absolute; inset:0; border-radius:28px; pointer-events:none;
+  box-shadow:0 0 40px rgba(79,195,255,0.06); opacity:0; transition:opacity .25s;
+}
+.serv-card:hover::after{ opacity:1; }
 .serv-card::before{ display:none; }
 .serv-card img{ width:100%; height:120px; object-fit:cover; display:block; }
 .serv-media{ height:120px; background-size:cover; background-position:center; display:block; }
@@ -341,7 +346,7 @@ footer{padding:48px 24px 32px; border-top:1px solid var(--border); text-align:ce
   </div>
   <div>
     <div class="hero-figure">
-      <img class="hero-personaje" src="{{ url_for('static', filename='images/MUSAN1.jpg') }}" alt="Musan1" />
+      <img class="hero-personaje" src="{{ url_for('static', filename='images/lobo.jpg') }}" alt="lobo" />
     </div>
   </div>
 </section>
@@ -618,13 +623,16 @@ function addToCart(index){
 }
 
 function addPromoToCart(){
-  const promoKeywords = ['disney','hbo','prime','crunchyroll'];
-  promoKeywords.forEach(k => {
-    const idx = SERVICIOS.findIndex(s => s.nombre && s.nombre.toLowerCase().includes(k));
-    if(idx !== -1){
-      addToCart(idx);
-    }
-  });
+  // Prefer an existing service named "Combo Super"; if missing, create it client-side.
+  const name = 'combo super';
+  let idx = SERVICIOS.findIndex(s => s.nombre && s.nombre.toLowerCase() === name);
+  if(idx === -1){
+    const newService = { nombre: 'Combo Super', precio: 15.00, entrega: 'Entrega al instante', desc: 'Combo Super: Disney+, HBO Max, Prime Video y Crunchyroll. Acceso inmediato. Soporte garantizado.', imagen: 'images/combo_super.jpg' };
+    SERVICIOS.push(newService);
+    selectedQty.push(1);
+    idx = SERVICIOS.length - 1;
+  }
+  addToCart(idx);
 }
 
 function showOverlay(index){

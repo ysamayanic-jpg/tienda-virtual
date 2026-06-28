@@ -96,6 +96,14 @@ SERVICIOS = [
         "desc": "✔ Millones de plantillas premium.\n✔ Herramientas de IA para diseño.\n✔ Fondo transparente y redimensionado mágico.\n✔ Recursos gráficos e imágenes premium.",
         "imagen": "images/canva1.png",
     }
+    ,
+    {
+        "nombre": "Combo Super",
+        "precio": 15.00,
+        "entrega": "Entrega al instante",
+        "desc": "✔ Disney+ Standard, HBO Max, Prime Video y Crunchyroll.\n✔ Acceso inmediato.\n✔ Soporte garantizado.",
+        "imagen": "images/combo_super.jpg",
+    }
 ]
 
 # ======================================================================
