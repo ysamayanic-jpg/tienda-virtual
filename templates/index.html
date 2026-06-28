@@ -39,16 +39,21 @@ button{font-family:inherit; cursor:pointer; border:none;}
 
 header{
   position:sticky; top:0; z-index:40;
-  background:rgba(22,35,31,0.88);
-  backdrop-filter: blur(8px);
+  background:rgba(5,13,36,0.95);
+  backdrop-filter: blur(12px);
   border-bottom:1px solid var(--border);
 }
-.nav{display:flex; align-items:center; justify-content:space-between; padding:16px 24px;}
-.brand{display:flex; align-items:center; gap:10px; font-family:'Fraunces',serif; font-weight:700; font-size:1.25rem;}
-.brand img{height:40px; width:40px; border-radius:8px; object-fit:cover;}
+.nav{display:flex; align-items:center; justify-content:space-between; padding:12px 16px;}
+.brand{display:flex; align-items:center; gap:8px; font-family:'Fraunces',serif; font-weight:700; font-size:1rem;}
+.brand img{height:36px; width:36px; border-radius:6px; object-fit:cover;}
 .nav-links{display:flex; gap:28px; font-size:0.92rem;}
 .nav-links a{opacity:0.85; transition:opacity .2s;}
 .nav-links a:hover{opacity:1; color:var(--coral);}
+@media (max-width:768px){
+  .brand{font-size:0.9rem; gap:6px;}
+  .brand img{height:32px; width:32px;}
+  .nav{padding:10px 12px;}
+}
 
 .cart-indicator{
   display:flex;
@@ -356,7 +361,7 @@ footer{padding:48px 24px 32px; border-top:1px solid var(--border); text-align:ce
       <li>Soporte garantizado</li>
     </ul>
     <div class="promo-price">S/ 15</div>
-    <a class="promo-btn" href="https://wa.me/{{ negocio.whatsapp }}?text=Hola,%20quiero%20la%20promoci%C3%B3n" target="_blank">Adquiérelo</a>
+    <button class="promo-btn" type="button" onclick="addPromoToCart()">Adquiérelo</button>
   </div>
 </section>
 
@@ -596,7 +601,7 @@ function removeCartItem(index){
 function getWhatsAppLink(){
   const total = getCartTotal();
   const lines = cart.map(item => `${item.quantity}× ${item.servicio.nombre} (${money(item.servicio.precio)})`).join('\n');
-  const message = `Hola, quiero comprar:\n${lines}\nTotal: ${money(total)}\n\nNombre para su perfil:`;
+  const message = `Hola, ya realicé el pago por los siguientes servicios por la página web:\n${lines}\nTotal: ${money(total)}\n\nNombre para su perfil:\nNOTA: adjuntar comprobante de pago.`;
   return `https://wa.me/${NEGOCIO.whatsapp}?text=${encodeURIComponent(message)}`;
 }
 
@@ -610,6 +615,16 @@ function addToCart(index){
     cart.push({ index, servicio, quantity });
   }
   showOverlay(index);
+}
+
+function addPromoToCart(){
+  const promoKeywords = ['disney','hbo','prime','crunchyroll'];
+  promoKeywords.forEach(k => {
+    const idx = SERVICIOS.findIndex(s => s.nombre && s.nombre.toLowerCase().includes(k));
+    if(idx !== -1){
+      addToCart(idx);
+    }
+  });
 }
 
 function showOverlay(index){
