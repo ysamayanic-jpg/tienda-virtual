@@ -197,10 +197,16 @@ header{
 }
 .serv-card:hover{
   transform:translateY(-4px);
-  background:rgba(255,255,255,0.08);
-  border-color:rgba(139,47,201,0.35);
-  box-shadow:0 28px 90px -32px rgba(139,47,201,0.4);
+  background:rgba(255,255,255,0.16);
+  border-color:rgba(255,255,255,0.35);
+  box-shadow:0 24px 60px rgba(255,255,255,0.18), 0 18px 40px rgba(79,195,255,0.12);
 }
+.serv-card::after{
+  content:''; position:absolute; inset:0; border-radius:28px; pointer-events:none;
+  box-shadow:0 0 48px rgba(255,255,255,0.18);
+  opacity:0; transition:opacity .25s;
+}
+.serv-card:hover::after{ opacity:1; }
 .serv-card::before{ display:none; }
 .serv-card img{ width:100%; height:120px; object-fit:cover; display:block; }
 .serv-media{ height:120px; background-size:cover; background-position:center; display:block; }
@@ -341,7 +347,7 @@ footer{padding:48px 24px 32px; border-top:1px solid var(--border); text-align:ce
   </div>
   <div>
     <div class="hero-figure">
-      <img class="hero-personaje" src="{{ url_for('static', filename='images/MUSAN1.jpg') }}" alt="Musan1" />
+      <img class="hero-personaje" src="{{ url_for('static', filename='images/lobo.jpg') }}" alt="lobo" />
     </div>
   </div>
 </section>
@@ -361,7 +367,7 @@ footer{padding:48px 24px 32px; border-top:1px solid var(--border); text-align:ce
       <li>Soporte garantizado</li>
     </ul>
     <div class="promo-price">S/ 15</div>
-    <a class="promo-btn" href="https://wa.me/{{ negocio.whatsapp }}?text=Hola,%20quiero%20la%20promoci%C3%B3n" target="_blank">Adquiérelo</a>
+    <button class="promo-btn" type="button" onclick="addPromoToCart()">Adquiérelo</button>
   </div>
 </section>
 
@@ -615,6 +621,24 @@ function addToCart(index){
     cart.push({ index, servicio, quantity });
   }
   showOverlay(index);
+}
+
+function addPromoToCart(){
+  const promoName = 'Super Combo';
+  const existing = cart.find(item => item.servicio.nombre.toLowerCase() === promoName.toLowerCase());
+  if(existing){
+    existing.quantity += 1;
+  } else {
+    const promoServicio = {
+      nombre: promoName,
+      precio: 15.00,
+      entrega: 'Entrega al instante',
+      desc: '✔ Disney+ Standard\n✔ HBO Max\n✔ Prime Video\n✔ Crunchyroll\n✔ Acceso inmediato\n✔ Soporte garantizado.',
+      imagen: 'images/lobo.jpg',
+    };
+    cart.push({ index: -1, servicio: promoServicio, quantity: 1 });
+  }
+  showOverlay();
 }
 
 function showOverlay(index){
