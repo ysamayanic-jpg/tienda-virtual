@@ -513,6 +513,9 @@ footer{padding:48px 24px 32px; border-top:1px solid var(--border); text-align:ce
     <div id="overlay-step-pay" class="step-block">
       <h3 style="text-align:center; margin-bottom:14px;">Paga con Yape</h3>
       <img class="modal-qr-img" src="{{ url_for('static', filename='images/qr yape.jpg') }}" alt="QR Yape">
+      <div id="payment-total" style="text-align:center; font-size:1.15rem; font-weight:700; color:#1B1B16; background:#fff; padding:12px 16px; border-radius:16px; margin:18px auto 18px; max-width:260px; box-shadow:0 10px 24px rgba(0,0,0,0.08);">
+        Total a pagar: S/ 0.00
+      </div>
       <div class="pay-instructions">
         <p><strong>Número de Yape:</strong></p>
         <p style="font-size:1.1rem; font-weight:700; letter-spacing:0.04em; margin:0 0 12px;">924 481 118</p>
@@ -645,14 +648,16 @@ function showOverlay(index){
   const overlay = document.getElementById('overlay');
   const itemCount = document.getElementById('item-count');
   const totalLabel = document.getElementById('overlay-cart-total');
+  const paymentTotal = document.getElementById('payment-total');
   const confirmStep = document.getElementById('overlay-step-confirm');
   const payStep = document.getElementById('overlay-step-pay');
-  if(!overlay || !itemCount || !totalLabel || !confirmStep || !payStep) return;
+  if(!overlay || !itemCount || !totalLabel || !confirmStep || !payStep || !paymentTotal) return;
 
   const count = getCartCount();
   const total = getCartTotal();
   itemCount.textContent = formatItemCount(count);
   totalLabel.textContent = `Total acumulado: ${money(total)}`;
+  paymentTotal.textContent = `Total a pagar: ${money(total)}`;
   renderCartItems();
   updateCartCount();
   confirmStep.classList.add('active');
@@ -663,7 +668,10 @@ function showOverlay(index){
 function openPaymentStep(){
   const confirmStep = document.getElementById('overlay-step-confirm');
   const payStep = document.getElementById('overlay-step-pay');
-  if(!confirmStep || !payStep) return;
+  const paymentTotal = document.getElementById('payment-total');
+  if(!confirmStep || !payStep || !paymentTotal) return;
+  const total = getCartTotal();
+  paymentTotal.textContent = `Total a pagar: ${money(total)}`;
   confirmStep.classList.remove('active');
   payStep.classList.add('active');
 }
