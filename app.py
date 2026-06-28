@@ -33,7 +33,7 @@ NEGOCIO = {
 # ======================================================================
 SERVICIOS = [
     {
-        "nombre": "Netflix",
+        "nombre": "NETFLIX",
         "precio": 14.50,
         "entrega": "Entrega al instante",
         "desc": "✔ Películas y series ilimitadas.\n✔ Estrenos exclusivos.\n✔ Perfiles personalizados.\n✔ Disponible en todos tus dispositivos.\n✔ Calidad HD/Full HD/4K (según el plan).\n✔ Contenido para toda la familia.",
@@ -41,7 +41,7 @@ SERVICIOS = [
         "use_as_background": True,
     },
     {
-        "nombre": "disney premiun",
+        "nombre": "DISNEY PREMIUN",
         "precio": 11.50,
         "entrega": "Entrega al instante",
         "desc": "✔ Películas y series de Disney, Pixar, Marvel y Star Wars.\n✔ Contenido para toda la familia.\n✔ Estrenos exclusivos.\n✔ Calidad HD y 4K (según el plan).",
